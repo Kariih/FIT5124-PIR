@@ -1,15 +1,24 @@
 package client;
 
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 import Utils.EncryptionRSA;
-import server.Record;
+import Utils.GenerateRsaKeys;
 
 public class Client {
 	
+	EncryptionRSA rsa = null;
+	GenerateRsaKeys rsaKeys = null;
+	KeyPair rsaKeyPar = null;
+	
 	public static byte[] encMessage = null;
 	
-	public Client() {}
+	public Client() throws NoSuchAlgorithmException {
+		rsa = new EncryptionRSA();
+		rsaKeys = new GenerateRsaKeys();
+	}
 	
 	public byte[] encryptIdentifierOnClient(PublicKey pubKey) throws Exception {
 		String identifier = "Mary";
@@ -17,7 +26,13 @@ public class Client {
 		return rsa.encryptRSA(pubKey, identifier);
 	}
 	
-	public Record decryptRecordOnClient() {
-		return null;
+	public PublicKey getRsaPublicKey() throws NoSuchAlgorithmException {	
+		rsaKeyPar = rsa.generateRSAKeyPair();
+		return rsaKeyPar.getPublic();
 	}
+	
+	public String decryptRecordOnClient(byte[] encRecord) throws Exception {
+		return rsa.decryptRSA(rsaKeyPar.getPrivate(), encRecord);
+	}
+	
 }

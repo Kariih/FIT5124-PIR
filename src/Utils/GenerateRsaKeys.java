@@ -5,13 +5,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class GenerateCryptoKeys {
+public class GenerateRsaKeys {
 	
 	private PrivateKey privKey = null;
 	public PublicKey pubKey = null;
 	EncryptionRSA rsa = null;
 
-	public GenerateCryptoKeys() throws NoSuchAlgorithmException{
+	public GenerateRsaKeys() throws NoSuchAlgorithmException{
 		rsa = new EncryptionRSA();
 		KeyPair key = rsa.generateRSAKeyPair();
 		privKey = key.getPrivate();

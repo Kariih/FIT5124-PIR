@@ -2,20 +2,29 @@ package server;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+
 import sc.SC;
 
 public class Server {
 	
-	SC sc = null;
+	private SC sc = null;
 	
 	public Server (){
 		sc = new SC();
 	}
 	
+	public void encryptRecords() throws Exception {
+		sc.encodeRecordsWithAES();
+	}
+	
 	public PublicKey getPublicKey() throws NoSuchAlgorithmException {
 		return sc.getRSAKey();
 	}
-	public String fetchRecord(byte[] encIdentifier) throws Exception {
-		return sc.decryptRSAMessage(encIdentifier);
+	public byte[] fetchRecord(byte[] encIdentifier, PublicKey pubKey) throws Exception {
+		sc.decryptRSAMessage(encIdentifier);
+		
+		//TODO FIND RECORD HERE
+		
+		return sc.encryptRecordOnServer("hi", pubKey);
 	}
 }
