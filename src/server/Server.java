@@ -14,17 +14,16 @@ public class Server {
 	}
 	
 	public void encryptRecords() throws Exception {
-		sc.encodeRecordsWithAES();
+		sc.encodeRecordsAndSwap();
 	}
 	
 	public PublicKey getPublicKey() throws NoSuchAlgorithmException {
 		return sc.getRSAKey();
 	}
-	public byte[] fetchRecord(byte[] encIdentifier, PublicKey pubKey) throws Exception {
-		sc.decryptRSAMessage(encIdentifier);
-		
-		//TODO FIND RECORD HERE
-		
-		return sc.encryptRecordOnServer("hi", pubKey);
+	public byte[] fetchRecord(byte[] encIdentifier) throws Exception {
+		return sc.decryptRSAMessageAndFindRecord(encIdentifier);
+	}
+	public byte[] getAESKey(PublicKey clientRSAKey) throws Exception {
+		return sc.encryptAndReturnSymmetricKey(clientRSAKey);
 	}
 }

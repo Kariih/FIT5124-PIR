@@ -17,11 +17,19 @@ public class ExecuteProtocol {
 		
 		//Create query for SC
 		byte[] identifier = client.encryptIdentifierOnClient(server.getPublicKey());
-		System.out.println(identifier);
 		
 		//Send query to SC and encrypt response
-		byte[] encryptedRecord = server.fetchRecord(identifier, client.getRsaPublicKey());
-		System.out.println(client.decryptRecordOnClient(encryptedRecord));
+		byte[] encryptedRecord = server.fetchRecord(identifier);
+		byte[] RSAEncryptedAESKey = server.getAESKey(client.getRsaPublicKey());
+		
+		//Decrypt response on client
+		client.decryptRecord(encryptedRecord, RSAEncryptedAESKey);
+		
+		//System.out.println(encryptedRecord);
+	//	System.out.println(RSAEncryptedAESKey);
+
+		
+		//		System.out.println(client.decryptRecordOnClient(encryptedRecord));
 		
 	}
 	

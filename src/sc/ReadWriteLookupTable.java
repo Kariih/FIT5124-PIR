@@ -1,5 +1,0 @@
-package sc;
-
-class ReadWriteLookupTable {
-
-}

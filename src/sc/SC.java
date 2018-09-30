@@ -2,31 +2,35 @@ package sc;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-
 import javax.crypto.SecretKey;
-
-import Utils.EncryptionAES;
+import Utils.EncryptAES2;
 import Utils.EncryptionRSA;
 import Utils.GenerateRsaKeys;
 import server.Records;
 
 public class SC {
 	
-	GenerateRsaKeys cryptoKeys;
-	EncryptionAES aes;
-	EncryptionRSA rsa;
-	SecretKey keyAES;
+	private final String AES_SECRET_KEY = "testkey";
+	
+	private GenerateRsaKeys cryptoKeys;
+	private EncryptAES2 aes;
+	private EncryptionRSA rsa;
+	private SecretKey keyAES;
+	private SwapRecordsCreateLookup swap;
+	private Records records;
 	
 	public SC() {
-		aes = new EncryptionAES();
+		aes = new EncryptAES2();
 		rsa = new EncryptionRSA();
+		records = new Records();
 	}
 	
-	public void encodeRecordsWithAES() throws Exception {
-		Records records = new Records();
-		keyAES = aes.generateKeyAES();
+	public void encodeRecordsAndSwap() throws Exception {
+		records = new Records();
+		swap = new SwapRecordsCreateLookup();
+		records.setRecords(swap.swapArray(records.getRecords()));
 		for (String record: records.getRecords()) {
-			System.out.println(aes.encryptAES(record, keyAES));
+			records.setEncRecords(aes.encrypt(record, AES_SECRET_KEY));
 		}	
 	}
 	
@@ -34,11 +38,12 @@ public class SC {
 		cryptoKeys = new GenerateRsaKeys();
 		return cryptoKeys.getPubKey();
 	}
-	public String decryptRSAMessage(byte[] message) throws Exception {
-		return rsa.decryptRSA(cryptoKeys.getPrivateKey(), message);
+	public byte[] decryptRSAMessageAndFindRecord(byte[] message) throws Exception {
+		String identifier = rsa.decryptRSA(cryptoKeys.getPrivateKey(), message);
+		return records.getRecordFromIndex(swap.getIndexOfIdentifier(identifier));
+		
 	}
-	public byte[] encryptRecordOnServer(String record, PublicKey pubKey) throws Exception {
-		return rsa.encryptRSA(pubKey, record.toString());
+	public byte[] encryptAndReturnSymmetricKey(PublicKey clientRSAKey) throws Exception {
+		return rsa.encryptRSA(clientRSAKey, AES_SECRET_KEY);
 	}
-
 }

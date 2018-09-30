@@ -8,6 +8,7 @@ public class Records {
 	private ArrayList<byte[]> encRecordFiles;
 	
 	public Records() {
+		encRecordFiles = new ArrayList<byte[]>();
 		recordFiles = new ArrayList<String>();
 		recordFiles.add("1-Mary");
 		recordFiles.add("2-Jane");
@@ -26,10 +27,15 @@ public class Records {
 	public ArrayList<byte[]> getEncRecords(){
 		return encRecordFiles;
 	}
+	public byte[] getRecordFromIndex(int index) {
+		return encRecordFiles.get(index);
+	}
+	public void setRecords(ArrayList<String> recordFiles) {
+		this.recordFiles = recordFiles;
+	}
 	
-	public void setRecords(ArrayList<byte[]> encRecordFiles) {
-		this.encRecordFiles = encRecordFiles;
-		this.recordFiles = null;
+	public void setEncRecords(byte[] encRecord) {
+		this.encRecordFiles.add(encRecord);
 	}
 
 }

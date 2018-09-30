@@ -4,6 +4,7 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
+import Utils.EncryptAES2;
 import Utils.EncryptionRSA;
 import Utils.GenerateRsaKeys;
 
@@ -11,7 +12,7 @@ public class Client {
 	
 	EncryptionRSA rsa = null;
 	GenerateRsaKeys rsaKeys = null;
-	KeyPair rsaKeyPar = null;
+	KeyPair rsaKeyPair = null;
 	
 	public static byte[] encMessage = null;
 	
@@ -27,12 +28,17 @@ public class Client {
 	}
 	
 	public PublicKey getRsaPublicKey() throws NoSuchAlgorithmException {	
-		rsaKeyPar = rsa.generateRSAKeyPair();
-		return rsaKeyPar.getPublic();
+		rsaKeyPair = rsa.generateRSAKeyPair();
+		return rsaKeyPair.getPublic();
 	}
 	
 	public String decryptRecordOnClient(byte[] encRecord) throws Exception {
-		return rsa.decryptRSA(rsaKeyPar.getPrivate(), encRecord);
+		return rsa.decryptRSA(rsaKeyPair.getPrivate(), encRecord);
 	}
-	
+	public void decryptRecord(byte[] encRecord, byte[] encSymmetricKey) throws Exception {
+		String keyAES = rsa.decryptRSA(rsaKeyPair.getPrivate(), encSymmetricKey);
+		EncryptAES2 aes = new EncryptAES2();
+		String record = aes.decrypt(encRecord, keyAES);
+		System.out.println(record);
+	}
 }
