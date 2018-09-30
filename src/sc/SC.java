@@ -3,7 +3,7 @@ package sc;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import Utils.EncryptAES2;
+import Utils.EncryptionAES;
 import Utils.EncryptionRSA;
 import server.Records;
 
@@ -15,14 +15,14 @@ public class SC {
 	
 	//private GenerateRsaKeys cryptoKeys;
 	private KeyPair rsaKeyPair;
-	private EncryptAES2 aes;
+	private EncryptionAES aes;
 	private EncryptionRSA rsa;
 	private SwapRecordsCreateLookup swap;
 	private Records records;
 	
 
 	public SC() {
-		aes = new EncryptAES2();
+		aes = new EncryptionAES();
 		rsa = new EncryptionRSA();
 		records = new Records();
 	}

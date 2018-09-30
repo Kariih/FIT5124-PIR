@@ -3,7 +3,7 @@ package client;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import Utils.EncryptAES2;
+import Utils.EncryptionAES;
 import Utils.EncryptionRSA;
 
 public class Client {
@@ -32,7 +32,7 @@ public class Client {
 	//Decrypt RSA encrypted key and decrypt AES encrypted record with decrypted key
 	public String decryptRecord(byte[] encRecord, byte[] encSymmetricKey) throws Exception {
 		String keyAES = rsa.decryptRSA(rsaKeyPair.getPrivate(), encSymmetricKey);
-		EncryptAES2 aes = new EncryptAES2();
+		EncryptionAES aes = new EncryptionAES();
 		return aes.decrypt(encRecord, keyAES);
 	}
 }
