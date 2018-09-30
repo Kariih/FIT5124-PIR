@@ -3,10 +3,13 @@ package server;
 import java.util.ArrayList;
 
 public class Records {
-	
+	//storing non-encrypted records
 	private ArrayList<String> recordFiles;
+	
+	//storing encrypted files
 	private ArrayList<byte[]> encRecordFiles;
 	
+	//init sample records
 	public Records() {
 		encRecordFiles = new ArrayList<byte[]>();
 		recordFiles = new ArrayList<String>();
@@ -20,22 +23,23 @@ public class Records {
 		recordFiles.add("8-Emma");		
 	}
 	
-	public ArrayList<String> getRecords(){
-		return recordFiles;
-	}
-	
-	public ArrayList<byte[]> getEncRecords(){
-		return encRecordFiles;
-	}
-	public byte[] getRecordFromIndex(int index) {
-		return encRecordFiles.get(index);
-	}
 	public void setRecords(ArrayList<String> recordFiles) {
 		this.recordFiles = recordFiles;
+	}
+	
+	public ArrayList<String> getRecords(){
+		return recordFiles;
 	}
 	
 	public void setEncRecords(byte[] encRecord) {
 		this.encRecordFiles.add(encRecord);
 	}
+	
+	public byte[] getRecordFromIndex(int index) {
+		return encRecordFiles.get(index);
+	}
+
+	
+
 
 }
